@@ -1,111 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
-@font-face {
-    font-family: 'Flyhead';
-    src: url('/fonts/Flyhead.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Flyhead-Light';
-    src: url('/fonts/Flyhead-Light.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Flyhead-Bold';
-    src: url('/fonts/Flyhead-Bold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Add this to your global CSS file */
-body {
-    overflow-x: hidden;
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom cursor styles */
+  body[data-custom-cursor="true"] {
+    cursor: none !important;
+  }
+
+  .custom-cursor-emoji {
+    @apply fixed text-2xl pointer-events-none select-none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    z-index: 99999 !important;
+  }
+
+  /* Remove default cursor on ALL elements when custom cursor is enabled */
+  body[data-custom-cursor="true"] *,
+  body[data-custom-cursor="true"] *:hover {
+    cursor: none !important;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
 }
 
-@layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
+/* Utility classes for text gradients */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80;
+}
 
-        --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
+/* Animation utilities */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
-        --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-
-        --primary: 222.2 47.4% 11.2%;
-        --primary-foreground: 210 40% 98%;
-
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 222.2 84% 4.9%;
-
-        --radius: 0.5rem;
-    }
-
-    .dark {
-        --background: 222.2 84% 4.9%;
-        --foreground: 210 40% 98%;
-
-        --card: 222.2 84% 4.9%;
-        --card-foreground: 210 40% 98%;
-
-        --popover: 222.2 84% 4.9%;
-        --popover-foreground: 210 40% 98%;
-
-        --primary: 210 40% 98%;
-        --primary-foreground: 222.2 47.4% 11.2%;
-
-        --secondary: 217.2 32.6% 17.5%;
-        --secondary-foreground: 210 40% 98%;
-
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
-
-        --accent: 217.2 32.6% 17.5%;
-        --accent-foreground: 210 40% 98%;
-
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
-
-        --border: 217.2 32.6% 17.5%;
-        --input: 217.2 32.6% 17.5%;
-        --ring: 212.7 26.8% 83.9%;
-    }
-
-    .font-poppins {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .font-flyhead {
-        font-family: 'Flyhead', sans-serif;
-    }
-
-    .font-flyhead-light {
-        font-family: 'Flyhead-Light', sans-serif;
-    }
-
-    .font-flyhead-bold {
-        font-family: 'Flyhead-Bold', sans-serif;
-    }
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
