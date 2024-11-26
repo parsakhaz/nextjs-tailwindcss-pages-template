@@ -155,6 +155,44 @@ All notable changes to this project will be documented in this file.
 - Enhanced component loading
 - Better animation synchronization
 
+## [1.0.1] - 2024-01-19
+
+### Added
+- Interactive Typewriter component with categories
+  - Object Detection commands
+  - Visual Q&A commands
+  - Image Captioning commands
+  - Category dropdown selector
+  - Enter key interaction
+  - Real-time configuration
+- Terminal font (JetBrains Mono) for better readability
+- Chroma key window variant with clean edges
+
+### Improved
+- Terminal animation styling with monospace font
+- Configuration system with categories
+- Window variants with shadow control
+- Component organization
+
+### Removed
+- Search functionality
+  - Deleted Search component
+  - Removed search bar from layout
+  - Cleaned up unused imports
+
+### Technical Updates
+- Next.js Configuration
+  - Disabled SSR for better animation performance
+  - Added ClientOnly wrapper
+  - Set runtime to edge
+  - Optimized for client-side rendering
+
+### Developer Experience
+- Added comprehensive debug logging
+- Improved error handling
+- Enhanced component loading
+- Better animation synchronization
+
 ## [Upcoming Features]
 - Additional component types
 - More animation options

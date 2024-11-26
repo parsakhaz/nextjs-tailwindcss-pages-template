@@ -3,10 +3,5 @@ import DocsLayout from '@/components/DocsLayout';
 import { DocsSidebar } from '@/components/DocsSidebar';
 
 export default function InstallationPage() {
-  return (
-    <DocsLayout
-      sidebar={<DocsSidebar currentPath="/docs/installation" />}
-      main={<Installation />}
-    />
-  );
-} 
+	return <DocsLayout sidebar={<DocsSidebar currentPath='/docs/installation' />} main={<Installation />} />;
+}

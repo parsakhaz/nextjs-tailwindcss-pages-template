@@ -230,6 +230,16 @@ NEXT_PUBLIC_API_URL=api-url
 - Custom prompt
 - Editable command list
 - Real-time updates
+- JetBrains Mono font
+
+### Interactive Typewriter
+- Category-based commands
+  - Object Detection
+  - Visual Q&A
+  - Image Captioning
+- Enter key interaction
+- Real-time configuration
+- Smooth animations
 
 ### Code Editor
 - Syntax highlighting

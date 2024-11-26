@@ -7,13 +7,13 @@ import ClientOnly from '@/components/ClientOnly';
 import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <ClientOnly>
-      <ConfigProvider>
-        <ComponentsProvider>
-          <Component {...pageProps} />
-        </ComponentsProvider>
-      </ConfigProvider>
-    </ClientOnly>
-  );
+	return (
+		<ClientOnly>
+			<ConfigProvider>
+				<ComponentsProvider>
+					<Component {...pageProps} />
+				</ComponentsProvider>
+			</ConfigProvider>
+		</ClientOnly>
+	);
 }

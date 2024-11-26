@@ -3,10 +3,5 @@ import DocsLayout from '@/components/DocsLayout';
 import { DocsSidebar } from '@/components/DocsSidebar';
 
 export default function UsagePage() {
-  return (
-    <DocsLayout
-      sidebar={<DocsSidebar currentPath="/docs/usage" />}
-      main={<Usage />}
-    />
-  );
-} 
+	return <DocsLayout sidebar={<DocsSidebar currentPath='/docs/usage' />} main={<Usage />} />;
+}
