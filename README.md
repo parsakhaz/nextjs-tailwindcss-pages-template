@@ -1,44 +1,111 @@
-# Next.js Template Project
+# Moondream Interactive Demo
 
-This is a [Next.js](https://nextjs.org/) template project designed to kickstart your web application development. It's based on the structure provided by [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), with additional customizations and features.
+An elegant, interactive demonstration of Moondream's vision capabilities. This demo showcases the model's core functionalities through a seamless, automated presentation.
+
+## Features
+
+### Core Capabilities
+- **Object Detection**: Live demonstration of object detection with before/after video comparisons
+- **Visual Q&A**: Interactive questions and answers about image content
+- **Image Captioning**: Automated scene description and captioning
+
+### Technical Implementation
+- Seamless transitions between states using Framer Motion
+- Real-time typewriter effect for prompts
+- Smooth loading states and animations
+- Automatic progression through demo sequences
+- Adaptive media handling for both videos and images
+
+## Visual Experience
+
+- Clean, minimal interface with focus on content
+- Smooth transitions between all states
+- Real-time command display
+- Progress indicators and visual feedback
+- Consistent visual hierarchy
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   └── index.tsx    # Main demo component
+├── styles/
+│   └── globals.css  # Global styles and animations
+└── public/
+    ├── cars.mp4         # Original car detection video
+    ├── cars_detect.mp4  # Detection result video
+    ├── trucks.mp4       # Original truck detection video
+    ├── trucks_detect.mp4# Detection result video
+    └── cyclist.jpg      # Sample image for Q&A and captioning
+```
 
 ## Getting Started
 
-To begin working with this template, follow these steps:
+1. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
+2. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Required Assets
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Place the following media files in the `public` directory:
+- `cars.mp4` - Original video for car detection
+- `cars_detect.mp4` - Video showing car detection results
+- `trucks.mp4` - Original video for truck detection
+- `trucks_detect.mp4` - Video showing truck detection results
+- `cyclist.jpg` - Sample image for Q&A and captioning demos
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Demo Flow
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. **Object Detection**
+   - Shows original video while typing prompt
+   - Displays loading animation
+   - Transitions to detection results
+   - Progresses automatically
 
-## Learn More
+2. **Visual Q&A**
+   - Displays image immediately
+   - Types question over the image
+   - Shows model's response
+   - Smooth transition to next item
 
-To learn more about Next.js, take a look at the following resources:
+3. **Image Captioning**
+   - Similar flow to Visual Q&A
+   - Focuses on descriptive capabilities
+   - Demonstrates different caption styles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technical Details
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Built with Next.js and TypeScript
+- Framer Motion for seamless animations
+- Tailwind CSS for styling
+- Inter font for clean typography
+- Responsive design principles
 
-## Deploy on Vercel
+## Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The demo is designed to be:
+- Fully automated
+- Seamless between transitions
+- Maintainable and extensible
+- Easy to update with new content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
 
-###### Created by [Parsa Khazaeepoul](https://www.linkedin.com/in/parsas/)
+MIT License - Feel free to use this demo as a template for your own ML model demonstrations.
+
+---
+
+Created for demonstrating Moondream - an efficient vision language model.
