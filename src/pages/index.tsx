@@ -14,15 +14,15 @@ const defaultConfig = {
 		items: [
 			{ 
 			  id: "cars",
-			  display: "Find all cars",
-			  command: "detect: car",
+			  display: "detect: car",
+			  command: "cars detected",
 			  initialSrc: "/vehicles.mp4",
 			  resultSrc: "/cars_detect.mp4"
 			},
 			{ 
 			  id: "trucks",
-			  display: "Locate all trucks",
-			  command: "detect: truck",
+			  display: "detect: truck",
+			  command: "trucks detected",
 			  initialSrc: "/vehicles.mp4",
 			  resultSrc: "/trucks_detect.mp4"
 			},
@@ -59,19 +59,19 @@ const defaultConfig = {
             initialSrc: "@merry.avif",
             resultSrc: "@merry.avif"
           },
-          { 
-            id: "2",
-            display: "Describe this image (long)",
-            command: `The image shows a collection of wine bottles arranged on a dark brown wooden shelf. The bottles are predominantly dark green and black, with some white labels. The central bottle is labeled "Merryvale" and "Porch Nap" and is a 2014 Pinot Noir from the Carnero Vineyard in Napa Valley. To the right of the central bottle is a bottle of "Duckhorn Vineyards" Sauvignon Blanc from Napa Valley, and to the far right is a bottle of "Chateau Horace" Chardonnay from Napa Valley. The shelf is decorated with a small bunch of grapes and a wicker basket, adding a rustic touch to the scene. `,
-            initialSrc: "@merry.avif",
-            resultSrc: "@merry.avif"
-          },
+        //   { 
+        //     id: "2",
+        //     display: "Describe this image (long)",
+        //     command: `The image shows a collection of wine bottles arranged on a dark brown wooden shelf. The bottles are predominantly dark green and black, with some white labels. The central bottle is labeled "Merryvale" and "Porch Nap" and is a 2014 Pinot Noir from the Carnero Vineyard in Napa Valley. To the right of the central bottle is a bottle of "Duckhorn Vineyards" Sauvignon Blanc from Napa Valley, and to the far right is a bottle of "Chateau Horace" Chardonnay from Napa Valley. The shelf is decorated with a small bunch of grapes and a wicker basket, adding a rustic touch to the scene. `,
+        //     initialSrc: "@merry.avif",
+        //     resultSrc: "@merry.avif"
+        //   },
         ]
       }
     ],
     animations: {
       typingSpeed: 55,
-      progressDuration: 5500
+      progressDuration: 4500
     }
   }
 };
@@ -98,34 +98,61 @@ const Tab = ({
   category, 
   isActive, 
   isComplete,
-  onClick 
+  onClick,
+  currentItemIndex = 0,
+  totalItems = 0,
 }: { 
   category: typeof defaultConfig.interactiveTypewriter.categories[0],
   isActive: boolean,
   isComplete: boolean,
-  onClick: () => void
+  onClick: () => void,
+  currentItemIndex?: number,
+  totalItems?: number,
 }) => (
   <motion.button
     layout
     onClick={onClick}
-    className={`relative px-6 py-3 rounded-lg font-inter text-sm font-medium ${
-      isActive ? 'bg-[#5899f7] text-white' : 
-      isComplete ? 'bg-[#E8E8E8] text-gray-600' : 
-      'bg-[#F3F3F3] text-gray-500'
+    className={`relative px-4 py-2 font-geist-sans text-sm font-medium ${
+      isActive ? 'bg-[#4B96FF] text-white' : 
+      isComplete ? 'bg-gray-600 text-white' : 
+      'bg-gray-700 text-gray-300'
     }`}
     whileHover={{ scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
   >
     <motion.span layout>{category.name}</motion.span>
-    {isComplete && (
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="absolute -top-1 -right-1 w-4 h-4 bg-[#5899f7] rounded-full flex items-center justify-center"
-      >
-        <span className="text-white text-xs">✓</span>
-      </motion.div>
-    )}
+    <div className="absolute -top-1 -right-1 w-4 h-4">
+      {/* Background circle */}
+      <div className={`absolute inset-0 rounded-full ${
+        isComplete ? 'bg-[#4BC66D]' : 
+        isActive ? 'bg-[#4B96FF]' : 
+        'bg-gray-600'
+      }`} />
+      
+      {/* Circular progress indicator */}
+      {isActive && !isComplete && (
+        <svg className="absolute inset-0 w-full h-full -rotate-90">
+          <motion.circle
+            initial={{ pathLength: 0 }}
+            animate={{ 
+              pathLength: totalItems > 0 ? (currentItemIndex + 1) / totalItems + 0.01 : 0 
+            }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="stroke-white"
+            fill="none"
+            strokeWidth={2}
+            cx="8"
+            cy="8"
+            r="7"
+          />
+        </svg>
+      )}
+      
+      {/* Checkmark */}
+      <div className="absolute inset-0 flex items-center justify-center text-white">
+        <span className="text-[10px] transform translate-y-[0px] pt-[1px]">✓</span>
+      </div>
+    </div>
   </motion.button>
 );
 
@@ -215,6 +242,9 @@ function TypewriterMenu() {
     let typingInterval: NodeJS.Timeout;
 
     if (isTyping) {
+      // Start progress bar immediately when typing begins
+      setShowProgress(true);
+      
       typingInterval = setInterval(() => {
         if (currentIndex <= currentItem.display.length) {
           setDisplayText(currentItem.display.slice(0, currentIndex));
@@ -226,8 +256,7 @@ function TypewriterMenu() {
           setTimeout(() => {
             setIsLoading(false);
             setShowResult(true);
-            setShowProgress(true);
-            setTimeout(progressToNext, defaultConfig.interactiveTypewriter.animations.progressDuration);
+            setTimeout(progressToNext, defaultConfig.interactiveTypewriter.animations.progressDuration - 1500);
           }, 1500);
         }
       }, defaultConfig.interactiveTypewriter.animations.typingSpeed);
@@ -251,38 +280,30 @@ function TypewriterMenu() {
   }, [currentItemIndex, items.length, currentCategoryIndex, categories.length, currentCategory.id]);
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4">
-      <motion.div layout className="space-y-4">
-        {/* Category tabs */}
-        <div className="flex space-x-2">
-          {categories.map((category, index) => (
-            <Tab
-              key={category.id}
-              category={category}
-              isActive={index === currentCategoryIndex}
-              isComplete={completedCategories.includes(category.id)}
-              onClick={() => {}}
+    <div className="w-full max-w-3xl mx-auto">
+      <motion.div layout className="relative">
+        {/* Video container that takes up full space */}
+        <div className="w-full aspect-video rounded-lg overflow-hidden bg-gray-100">
+          {showVideo && (
+            <MediaPlayer 
+              src={showResult ? currentItem.resultSrc : currentItem.initialSrc}
+              isResult={showResult}
             />
-          ))}
+          )}
         </div>
 
-        {/* Main content area */}
-        <ContentContainer>
-          <div className="absolute inset-0">
-            {showVideo && (
-              <MediaPlayer 
-                src={showResult ? currentItem.resultSrc : currentItem.initialSrc}
-                isResult={showResult}
-              />
-            )}
-          </div>
-          <motion.div
-            layout
-            className="absolute inset-0 p-6 z-10"
-          >
-            <motion.div layout className="font-inter text-2xl font-medium">
+        {/* Overlay content */}
+        <div className="absolute inset-0 flex flex-col">
+          {/* Progress bar */}
+          {showProgress && (
+            <ProgressBar duration={defaultConfig.interactiveTypewriter.animations.progressDuration} />
+          )}
+
+          {/* Content overlay */}
+          <div className="flex-1 p-6">
+            <div className="font-inter text-2xl font-medium text-white">
               {isTyping ? (
-                <div className="bg-black/90 px-4 py-2 rounded-lg inline-block">
+                <div className="bg-black/40 px-4 py-2 rounded-lg w-full">
                   {displayText}
                   <motion.span
                     initial={{ opacity: 0 }}
@@ -294,77 +315,51 @@ function TypewriterMenu() {
                   </motion.span>
                 </div>
               ) : (
-                <div className="relative inline-block">
-                  <span className="relative z-10 px-4 py-3 bg-black/80 rounded-lg backdrop-blur-sm flex flex-col gap-2">
-                    <span>{displayText}</span>
-                    {!isLoading && (
-                      <motion.div
-                        initial={{ opacity: 1 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm font-mono text-[#5899f7]/80 border-t border-white/10 pt-2"
-                      >
-                        {'>'} {currentItem.command}
-                      </motion.div>
-                    )}
-                  </span>
+                <div className="bg-black/40 px-4 py-3 rounded-lg backdrop-blur-sm w-full">
+                  <div className="font-geist-sans">{displayText}</div>
+                  <div className="mt-2 pt-2 border-t border-white/10">
+                    <div className="font-geist-mono text-xs text-[#5899f7]/80">
+                      <span className="select-none">{'>'}</span>
+                      <span className="ml-2">
+                        {isLoading ? (
+                          <motion.span
+                            initial={{ opacity: 1 }}
+                            animate={{ opacity: [1, 0.5] }}
+                            transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                          >
+                            ⋯
+                          </motion.span>
+                        ) : (
+                          currentItem.command
+                        )}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )}
-            </motion.div>
-          </motion.div>
-          <AnimatePresence>
-            {isLoading && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="absolute inset-0 bg-black/95 backdrop-blur-sm flex items-center justify-center z-20"
-              >
-                <div className="flex flex-col items-center">
-                  <motion.div
-                    initial={{ scale: 0.8 }}
-                    animate={{ scale: 1, rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-12 h-12 border-t-2 border-[#5899f7] rounded-full"
-                  />
-                  <motion.p
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="mt-4 text-[#5899f7] font-inter text-sm font-medium"
-                  >
-                    Analyzing with Moondream...
-                  </motion.p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          {showProgress && (
-            <ProgressBar duration={defaultConfig.interactiveTypewriter.animations.progressDuration} />
-          )}
-        </ContentContainer>
+            </div>
+          </div>
+
+          {/* Tabs at the bottom with transparent background */}
+          <div className="p-4">
+            <div className="flex gap-2 justify-center">
+              {categories.map((category, index) => (
+                <Tab
+                  key={category.id}
+                  category={category}
+                  isActive={index === currentCategoryIndex}
+                  isComplete={completedCategories.includes(category.id)}
+                  onClick={() => {}}
+                  currentItemIndex={index === currentCategoryIndex ? currentItemIndex : 0}
+                  totalItems={category.items.length}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </motion.div>
     </div>
   );
 }
 
-/**
- * Main page component
- * Sets up the demo environment and styling
- */
-export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>Moondream Demo</title>
-        <meta name="description" content="Interactive demo for Moondream, an open vision language model" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
-      </Head>
-
-      <div className="min-h-screen flex items-center justify-center bg-white text-white py-8">
-        <TypewriterMenu />
-      </div>
-    </>
-  );
-} 
+export default TypewriterMenu;

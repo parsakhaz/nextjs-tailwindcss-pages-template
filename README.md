@@ -1,111 +1,92 @@
 # Moondream Interactive Demo
 
-An elegant, interactive demonstration of Moondream's vision capabilities. This demo showcases the model's core functionalities through a seamless, automated presentation.
+An interactive demo showcasing Moondream's vision-language capabilities through a sleek, modern interface.
 
 ## Features
 
-### Core Capabilities
-- **Object Detection**: Live demonstration of object detection with before/after video comparisons
-- **Visual Q&A**: Interactive questions and answers about image content
-- **Image Captioning**: Automated scene description and captioning
+- **Real-time Object Detection**
+  - Car and truck detection in video streams
+  - Visual feedback with bounding boxes
+  - Smooth transitions between detection states
 
-### Technical Implementation
-- Seamless transitions between states using Framer Motion
-- Real-time typewriter effect for prompts
-- Smooth loading states and animations
-- Automatic progression through demo sequences
-- Adaptive media handling for both videos and images
+- **Visual Question Answering (VQA)**
+  - Natural language queries about image content
+  - Accurate responses based on visual context
+  - Support for complex, multi-part questions
 
-## Visual Experience
+- **Image Captioning**
+  - Concise and detailed image descriptions
+  - Context-aware scene understanding
+  - Support for both short and detailed captions
 
-- Clean, minimal interface with focus on content
-- Smooth transitions between all states
-- Real-time command display
-- Progress indicators and visual feedback
-- Consistent visual hierarchy
+## Technical Features
 
-## Project Structure
+- **Modern UI/UX**
+  - Terminal-style interface with typewriter animations
+  - Smooth state transitions using Framer Motion
+  - Responsive design with full-width video container
+  - Semi-transparent overlays for better content visibility
 
-```
-src/
-├── pages/
-│   └── index.tsx    # Main demo component
-├── styles/
-│   └── globals.css  # Global styles and animations
-└── public/
-    ├── cars.mp4         # Original car detection video
-    ├── cars_detect.mp4  # Detection result video
-    ├── trucks.mp4       # Original truck detection video
-    ├── trucks_detect.mp4# Detection result video
-    └── cyclist.jpg      # Sample image for Q&A and captioning
-```
+- **Interactive Elements**
+  - Category tabs with visual state indicators
+  - Circular progress tracking per category
+  - Animated completion indicators
+  - Real-time progress feedback
+  - Seamless media transitions
 
-## Getting Started
+- **Typography**
+  - Geist Sans for UI elements (9 weights)
+    - Thin (100)
+    - ExtraLight (200)
+    - Light (300)
+    - Regular (400)
+    - Medium (500)
+    - SemiBold (600)
+    - Bold (700)
+    - ExtraBold (800)
+    - Black (900)
+  
+  - Geist Mono for terminal text (9 weights)
+    - Thin (100)
+    - UltraLight (200)
+    - Light (300)
+    - Regular (400)
+    - Medium (500)
+    - SemiBold (600)
+    - Bold (700)
+    - Black (900)
+    - UltraBlack (950)
 
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
+## Changelog
 
-2. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Latest Changes
+- Enhanced visual feedback with circular progress indicators
+- Improved state management for category progression
+- Refined color scheme for better contrast and clarity
+- Added real-time progress tracking per category
+- Synchronized progress indicators with typewriter animations
+- Added complete Geist font family with all variations
+- Moved category tabs to bottom of container for better UX
+- Improved text contrast with 40% transparent backgrounds
+- Added terminal-style command responses
+- Fixed animation transitions for instant state changes
+- Implemented proper loading indicators in terminal style
+- Improved video container to maintain full width
+- Added progress tracking for completed categories
 
-3. Open [http://localhost:3000](http://localhost:3000)
+### Previous Updates
+- Initial implementation of typewriter effect
+- Added support for both video and image content
+- Implemented category-based navigation
+- Added Framer Motion animations
+- Created responsive layout structure
+- Implemented demo auto-progression
+- Added support for multiple demo categories
 
-## Required Assets
+## Tech Stack
 
-Place the following media files in the `public` directory:
-- `cars.mp4` - Original video for car detection
-- `cars_detect.mp4` - Video showing car detection results
-- `trucks.mp4` - Original video for truck detection
-- `trucks_detect.mp4` - Video showing truck detection results
-- `cyclist.jpg` - Sample image for Q&A and captioning demos
-
-## Demo Flow
-
-1. **Object Detection**
-   - Shows original video while typing prompt
-   - Displays loading animation
-   - Transitions to detection results
-   - Progresses automatically
-
-2. **Visual Q&A**
-   - Displays image immediately
-   - Types question over the image
-   - Shows model's response
-   - Smooth transition to next item
-
-3. **Image Captioning**
-   - Similar flow to Visual Q&A
-   - Focuses on descriptive capabilities
-   - Demonstrates different caption styles
-
-## Technical Details
-
-- Built with Next.js and TypeScript
-- Framer Motion for seamless animations
-- Tailwind CSS for styling
-- Inter font for clean typography
-- Responsive design principles
-
-## Development
-
-The demo is designed to be:
-- Fully automated
-- Seamless between transitions
-- Maintainable and extensible
-- Easy to update with new content
-
-## License
-
-MIT License - Feel free to use this demo as a template for your own ML model demonstrations.
-
----
-
-Created for demonstrating Moondream - an efficient vision language model.
+- Next.js (Pages Router)
+- Tailwind CSS
+- Framer Motion
+- TypeScript
+- Geist Font Family (Sans & Mono)
