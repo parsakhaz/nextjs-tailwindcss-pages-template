@@ -303,22 +303,22 @@ function TypewriterMenu() {
           <div className="flex-1 p-6">
             <div className="font-inter text-2xl font-medium text-white">
               {isTyping ? (
-                <div className="bg-black/40 px-4 py-2 rounded-lg w-full">
+                <div className="bg-black/80 px-4 py-2 rounded-lg w-full">
                   {displayText}
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: [0, 1] }}
                     transition={{ duration: 0.7, repeat: Infinity }}
-                    className="ml-0.5 text-[#5899f7]"
+                    className="ml-0.5 text-[#6a98f7]"
                   >
                     |
                   </motion.span>
                 </div>
               ) : (
-                <div className="bg-black/40 px-4 py-3 rounded-lg backdrop-blur-sm w-full">
-                  <div className="font-geist-sans">{displayText}</div>
+                <div className="bg-black/80 px-4 py-3 rounded-lg backdrop-blur-sm w-full">
+                  <div>{displayText}</div>
                   <div className="mt-2 pt-2 border-t border-white/10">
-                    <div className="font-geist-mono text-xs text-[#5899f7]/80">
+                    <div className="font-geist-mono text-sm text-[#6a98f7]">
                       <span className="select-none">{'>'}</span>
                       <span className="ml-2">
                         {isLoading ? (
