@@ -82,10 +82,11 @@ const defaultConfig = {
  */
 const ProgressBar = ({ duration }: { duration: number }) => (
   <motion.div 
-    className="absolute bottom-0 left-0 h-1 bg-[#5899f7]"
-    initial={{ width: "0%" }}
-    animate={{ width: "100%" }}
+    className="absolute bottom-0 left-0 right-0 h-1 bg-[#4B96FF]"
+    initial={{ scaleX: 0 }}
+    animate={{ scaleX: 1 }}
     transition={{ duration: duration / 1000, ease: "linear" }}
+    style={{ transformOrigin: 'left' }}
   />
 );
 
@@ -176,7 +177,6 @@ const MediaPlayer = ({ src, isResult = false }: { src: string, isResult?: boolea
           loop
           muted
           playsInline
-          style={{ borderRadius: 8 }}
         >
           <source src={src} type="video/mp4" />
         </video>
@@ -184,7 +184,7 @@ const MediaPlayer = ({ src, isResult = false }: { src: string, isResult?: boolea
         <img
           src={imageSrc}
           alt="Scene for analysis"
-          className="w-full h-full object-cover rounded-lg"
+          className="w-full h-full object-cover"
         />
       )}
     </motion.div>
