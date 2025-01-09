@@ -294,12 +294,7 @@ export default function Home() {
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>4.4 GB</span>
 											</div>
 										</th>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>deepseek 1.3b (is 2b)</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.1 GB</span>
-											</div>
-										</th>
+										
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
 											<div className='flex flex-col'>
 												<span className='text-[13px] tracking-tight'>InternVL2 2b</span>
@@ -338,7 +333,6 @@ export default function Home() {
 										>
 											<td className='px-4 py-3 whitespace-nowrap font-medium text-[13px] text-black font-geist tracking-tight'>{row.metric}</td>
 											<td className='px-4 py-3 text-left text-[13px] text-black font-mono bg-slate-50/80 border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20'>{formatNumber(row.dream)}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.deepseek)}</td>
 											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.internvl)}</td>
 											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.smolvm)}</td>
 											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.pali)}</td>
