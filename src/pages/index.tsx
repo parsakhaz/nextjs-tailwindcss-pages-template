@@ -25,16 +25,14 @@ export default function Home() {
 
 	const modelData: ModelData[] = [
 		{ metric: 'Average', dream: 73.1, deepseek: 58.6, internvl: 70.7, smolvm: 63.8, pali: 65.8, qwen2b: 76.7 },
-		{ metric: 'ChartQA Human', dream: 56.4, deepseek: 33.2, internvl: 55.92, smolvm: 20.56, pali: 33.68, qwen2b: 57.6 },
-		{ metric: 'ChartQA Augmented', dream: 87.92, deepseek: 62.0, internvl: 87.04, smolvm: 35.04, pali: 33.52, qwen2b: 89.2 },
-		{ metric: 'ChartQA Overall', dream: 72.16, deepseek: 47.6, internvl: 71.48, smolvm: 27.8, pali: 33.6, qwen2b: 73.4 },
-		{ metric: 'TextVQA', dream: 73.42, deepseek: 57.65, internvl: 73.34, smolvm: 70.19, pali: 70.06, qwen2b: 79.93 },
-		{ metric: 'DocVQA', dream: 75.86, deepseek: 35.68, internvl: 86.10, smolvm: 68.92, pali: 73.87, qwen2b: 89.16 },
-		{ metric: 'RealWorldQA', dream: 0.605, deepseek: 0.501, internvl: 0.578, smolvm: 0.542, pali: 0.550, qwen2b: 0.624 },
-		{ metric: 'CountBench', dream: 0.800, deepseek: 0.790, internvl: 0.621, smolvm: 0.754, pali: 0.790, qwen2b: 0.839 },
-		{ metric: 'TallyQA', dream: 0.769, deepseek: 0.695, internvl: 0.696, smolvm: 0.727, pali: 0.778, qwen2b: 0.759 },
-		{ metric: 'POPE', dream: 89.83, deepseek: 85.78, internvl: 85.34, smolvm: 84.04, pali: 87.46, qwen2b: 88.01 },
-		{ metric: 'SeedBench', dream: 55.73, deepseek: 43.70, internvl: 59.90, smolvm: 57.20, pali: 49.80, qwen2b: 61.20 }
+		{ metric: 'ChartQA', dream: 72.2, deepseek: 47.6, internvl: 71.5, smolvm: 27.8, pali: 33.6, qwen2b: 73.4 },
+		{ metric: 'TextVQA', dream: 73.4, deepseek: 57.7, internvl: 73.3, smolvm: 70.2, pali: 70.1, qwen2b: 79.9 },
+		{ metric: 'DocVQA', dream: 75.9, deepseek: 35.7, internvl: 86.1, smolvm: 68.9, pali: 73.9, qwen2b: 89.2 },
+		{ metric: 'RealWorldQA', dream: 0.6, deepseek: 0.5, internvl: 0.6, smolvm: 0.5, pali: 0.6, qwen2b: 0.6 },
+		{ metric: 'CountBenchQA', dream: 0.8, deepseek: 0.8, internvl: 0.6, smolvm: 0.8, pali: 0.8, qwen2b: 0.8 },
+		{ metric: 'TallyQA', dream: 0.8, deepseek: 0.7, internvl: 0.7, smolvm: 0.7, pali: 0.8, qwen2b: 0.8 },
+		{ metric: 'POPE', dream: 89.8, deepseek: 85.8, internvl: 85.3, smolvm: 84.0, pali: 87.5, qwen2b: 88.0 },
+		{ metric: 'SeedBench2+', dream: 55.7, deepseek: 43.7, internvl: 59.9, smolvm: 57.2, pali: 49.8, qwen2b: 61.2 }
 	];
 
 	/**
@@ -44,13 +42,13 @@ export default function Home() {
 	 */
 	const calculateBenchmarkScore = (model: string) => {
 		const includedBenchmarks = [
-			'ChartQA (overall)',
-			'TextVQA_VAL',
-			'DOCVQA_VAL',
+			'ChartQA',
+			'TextVQA',
+			'DocVQA',
 			'RealWorldQA',
-			'Countbenchqa',
-			'tallyqa',
-			'overall pope'
+			'CountBenchQA',
+			'TallyQA',
+			'POPE'
 		];
 		
 		const scores = modelData
@@ -59,7 +57,7 @@ export default function Home() {
 				const value = row[model];
 				if (typeof value === 'string' || value === undefined) return 0;
 				// Scale benchmarks that are in 0-1 range by 100x to match other benchmarks
-				if (row.metric === 'RealWorldQA' || row.metric === 'Countbenchqa' || row.metric === 'tallyqa') {
+				if (row.metric === 'RealWorldQA' || row.metric === 'CountBenchQA' || row.metric === 'TallyQA') {
 					return value * 100;
 				}
 				return value;
@@ -82,11 +80,11 @@ export default function Home() {
 	// Generate chart data programmatically
 	const chartData = [
 		{ name: 'moondream 1.9b', x: ramUsage.dream, y: calculateBenchmarkScore('dream') },
-		{ name: 'SmolVLM', x: ramUsage.smolvm, y: calculateBenchmarkScore('smolvm') },
-		{ name: 'PaLiGemma 3B', x: ramUsage.pali, y: calculateBenchmarkScore('pali') },
+		{ name: 'SmolVLM 2b', x: ramUsage.smolvm, y: calculateBenchmarkScore('smolvm') },
+		{ name: 'PaLiGemma 3b', x: ramUsage.pali, y: calculateBenchmarkScore('pali') },
 		{ name: 'deepseek 1.3b (actual: 2b)', x: ramUsage.deepseek, y: calculateBenchmarkScore('deepseek') },
-		{ name: 'InternVL2 2B', x: ramUsage.internvl, y: calculateBenchmarkScore('internvl') },
-		{ name: 'Qwen2B', x: ramUsage.qwen2b, y: calculateBenchmarkScore('qwen2b') },
+		{ name: 'InternVL2 2b', x: ramUsage.internvl, y: calculateBenchmarkScore('internvl') },
+		{ name: 'Qwen2b Instruct', x: ramUsage.qwen2b, y: calculateBenchmarkScore('qwen2b') },
 	];
 
 	// Add curve data points
@@ -98,8 +96,8 @@ export default function Home() {
 		{ x: 8, y: 80 }, // 8GB, 80%
 	];
 
-	// Function to format numbers to 2 decimal places
-	const formatNumber = (num: number | string) => (typeof num === 'string' ? num : num.toFixed(2));
+	// Function to format numbers to 1 decimal place
+	const formatNumber = (num: number | string) => (typeof num === 'string' ? num : num.toFixed(1));
 
 	interface ScatterProps {
 		cx: number;
@@ -284,37 +282,39 @@ export default function Home() {
 								<thead>
 									<tr className='border-b border-[#eaeaea]'>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='text-[13px] tracking-tight'>Benchmark</div>
-											<div className='text-xs text-gray-500 font-normal mt-0.5'>RAM Usage (GB)</div>
+											<div className='flex flex-col'>
+												<div className='text-[13px] tracking-tight'>Benchmark</div>
+												<div className='text-xs text-gray-500 font-normal mt-0.5'>RAM Usage (GB)</div>
+											</div>
 										</th>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-slate-50/80 font-geist border-r border-[#eaeaea] border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20'>
 											<div className='flex flex-col'>
 												<div className='text-[10px] text-red-500 font-medium -mb-1'>New</div>
-												<span className='text-[13px] tracking-tight'>Moondream</span>
+												<span className='text-[13px] tracking-tight'>moondream 1.9b</span>
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>4.4 GB</span>
 											</div>
 										</th>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
 											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>Deepseek 1.3b</span>
+												<span className='text-[13px] tracking-tight'>deepseek 1.3b (is 2b)</span>
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.1 GB</span>
 											</div>
 										</th>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
 											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>InternVL2-2b</span>
+												<span className='text-[13px] tracking-tight'>InternVL2 2b</span>
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.8 GB</span>
 											</div>
 										</th>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
 											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>SmolVLM</span>
+												<span className='text-[13px] tracking-tight'>SmolVLM 2b</span>
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.9 GB</span>
 											</div>
 										</th>
 										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
 											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>Paligemma-3b</span>
+												<span className='text-[13px] tracking-tight'>PaLiGemma 3b</span>
 												<span className='text-xs text-gray-500 font-normal mt-0.5'>6.5 GB</span>
 											</div>
 										</th>
