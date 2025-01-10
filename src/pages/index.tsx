@@ -97,7 +97,14 @@ export default function Home() {
 	];
 
 	// Function to format numbers to 1 decimal place
-	const formatNumber = (num: number | string) => (typeof num === 'string' ? num : num.toFixed(1));
+	const formatNumber = (num: number | string, metric: string) => {
+		if (typeof num === 'string') return num;
+		// Convert 0-1 range to percentage for specific benchmarks
+		if (metric === 'RealWorldQA' || metric === 'CountBenchQA' || metric === 'TallyQA') {
+			return (num * 100).toFixed(1);
+		}
+		return num.toFixed(1);
+	};
 
 	interface ScatterProps {
 		cx: number;
@@ -331,12 +338,12 @@ export default function Home() {
 												${idx % 2 === 0 ? 'bg-white' : 'bg-[#fafafa]'}
 											`}
 										>
-											<td className='px-4 py-3 whitespace-nowrap font-medium text-[13px] text-black font-geist tracking-tight'>{row.metric}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono bg-slate-50/80 border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20'>{formatNumber(row.dream)}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.internvl)}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.smolvm)}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.pali)}</td>
-											<td className='px-4 py-3 text-left text-[13px] text-black font-mono'>{formatNumber(row.qwen2b)}</td>
+											<td className={`px-4 py-3 whitespace-nowrap text-[13px] text-black font-geist tracking-tight ${row.metric === 'Average' ? 'font-bold' : 'font-medium'}`}>{row.metric}</td>
+											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono bg-slate-50/80 border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20 ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.dream, row.metric)}</td>
+											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.internvl, row.metric)}</td>
+											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.smolvm, row.metric)}</td>
+											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.pali, row.metric)}</td>
+											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.qwen2b, row.metric)}</td>
 										</tr>
 									))}
 								</tbody>
