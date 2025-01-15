@@ -26,13 +26,13 @@ export default function Home() {
 	const modelData: ModelData[] = [
 		{ metric: 'Average', dream: 73.1, deepseek: 58.6, internvl: 70.7, smolvm: 63.8, pali: 65.8, qwen2b: 76.7 },
 		{ metric: 'ChartQA', dream: 72.2, deepseek: 47.6, internvl: 71.5, smolvm: 27.8, pali: 33.6, qwen2b: 73.4 },
-		{ metric: 'TextVQA', dream: 73.4, deepseek: 57.7, internvl: 73.3, smolvm: 70.2, pali: 70.1, qwen2b: 79.9 },
-		{ metric: 'DocVQA', dream: 75.9, deepseek: 35.7, internvl: 86.1, smolvm: 68.9, pali: 73.9, qwen2b: 89.2 },
-		{ metric: 'RealWorldQA', dream: 0.6, deepseek: 0.5, internvl: 0.6, smolvm: 0.5, pali: 0.6, qwen2b: 0.6 },
-		{ metric: 'CountBenchQA', dream: 0.8, deepseek: 0.8, internvl: 0.6, smolvm: 0.8, pali: 0.8, qwen2b: 0.8 },
-		{ metric: 'TallyQA', dream: 0.8, deepseek: 0.7, internvl: 0.7, smolvm: 0.7, pali: 0.8, qwen2b: 0.8 },
-		{ metric: 'POPE', dream: 89.8, deepseek: 85.8, internvl: 85.3, smolvm: 84.0, pali: 87.5, qwen2b: 88.0 },
-		{ metric: 'SeedBench2+', dream: 55.7, deepseek: 43.7, internvl: 59.9, smolvm: 57.2, pali: 49.8, qwen2b: 61.2 }
+		{ metric: 'TextVQA', dream: 73.42, deepseek: 57.65, internvl: 73.34, smolvm: 70.19, pali: 70.06, qwen2b: 79.93 },
+		{ metric: 'DocVQA', dream: 75.86, deepseek: 35.68, internvl: 86.10, smolvm: 68.92, pali: 73.87, qwen2b: 89.16 },
+		{ metric: 'RealWorldQA', dream: 0.605, deepseek: 0.501, internvl: 0.578, smolvm: 0.542, pali: 0.550, qwen2b: 0.624 },
+		{ metric: 'CountBenchQA', dream: 0.800, deepseek: 0.790, internvl: 0.621, smolvm: 0.754, pali: 0.790, qwen2b: 0.839 },
+		{ metric: 'TallyQA', dream: 0.769, deepseek: 0.695, internvl: 0.696, smolvm: 0.727, pali: 0.778, qwen2b: 0.759 },
+		{ metric: 'POPE', dream: 89.83, deepseek: 85.78, internvl: 85.34, smolvm: 84.04, pali: 87.46, qwen2b: 88.01 },
+		{ metric: 'SeedBench2+', dream: 55.73, deepseek: 43.70, internvl: 59.90, smolvm: 57.20, pali: 49.80, qwen2b: 61.20 }
 	];
 
 	/**
