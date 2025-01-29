@@ -1,44 +1,71 @@
-# Next.js Template Project
+# Python Diff Generator
 
-This is a [Next.js](https://nextjs.org/) template project designed to kickstart your web application development. It's based on the structure provided by [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), with additional customizations and features.
+A web-based tool that generates beautiful, GitHub-style visual diffs for Python code. Built with Next.js and TypeScript.
+
+## Features
+
+- Side-by-side comparison of original and modified Python code
+- GitHub-style syntax highlighting for Python
+- Light and dark theme support
+- Export options:
+  - SVG format for vector graphics
+  - High-quality PNG export
+- Responsive design that works on both desktop and mobile
+- Python-specific syntax highlighting and indentation handling
 
 ## Getting Started
 
-To begin working with this template, follow these steps:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the diff generator.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## How to Use
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Paste your original Python code in the left textarea
+2. Paste your modified Python code in the right textarea
+3. (Optional) Change the filename from the default "example.py"
+4. Click "Generate Diff" to see the visualization
+5. Switch between light and dark themes using the theme buttons
+6. Download the result as SVG or PNG using the download buttons
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [Next.js](https://nextjs.org/) - React framework
+- TypeScript for type safety
+- TailwindCSS for styling
+- html-to-image for PNG export
+- Custom SVG generation for diffs
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+The main components of the project are:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `pages/index.tsx` - Main diff generator page
+- `lib/diff-generator.ts` - Core diff generation logic
+- `components/ui/*` - Reusable UI components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT License - feel free to use this in your own projects!
 
-###### Created by [Parsa Khazaeepoul](https://www.linkedin.com/in/parsas/)
+---
+
+Created by [Parsa Khazaeepoul](https://www.linkedin.com/in/parsas/)
