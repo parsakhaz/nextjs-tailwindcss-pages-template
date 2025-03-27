@@ -1,0 +1,51 @@
+{
+  "models": [
+    {
+      "id": "dream_v2",
+      "name": "moondream v2",
+      "ram": 2.2,
+      "isNew": true
+    },
+    {
+      "id": "dream_v1",
+      "name": "moondream 2025-01-09",
+      "ram": 4.4,
+      "isNew": false
+    },
+    {
+      "id": "internvl",
+      "name": "InternVL2 2b",
+      "ram": 5.8,
+      "isNew": false
+    },
+    {
+      "id": "smolvm",
+      "name": "SmolVLM 2b",
+      "ram": 5.9,
+      "isNew": false
+    },
+    {
+      "id": "pali",
+      "name": "PaLiGemma 3b",
+      "ram": 6.5,
+      "isNew": false
+    },
+    {
+      "id": "qwen2b",
+      "name": "Qwen2b Instruct",
+      "ram": 7.3,
+      "isNew": false
+    }
+  ],
+  "benchmarks": [
+    "Average",
+    "ChartQA",
+    "TextVQA",
+    "DocVQA",
+    "RealWorldQA",
+    "CountBenchQA",
+    "TallyQA",
+    "POPE",
+    "SeedBench2+"
+  ]
+}

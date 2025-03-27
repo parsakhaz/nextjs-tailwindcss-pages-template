@@ -1,143 +1,33 @@
 // Import Statements
 import Head from 'next/head';
+import Image from 'next/image';
 import { Button } from '../components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { RoughNotation } from 'react-rough-notation';
 import { ComposedChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Label, ResponsiveContainer, Area } from 'recharts';
+import { BenchmarkTable, ModelVisualization } from '../components/benchmark';
+import { SyntaxCode } from '../components/SyntaxCode';
+import modelDataJson from '../data/modelData.json';
+import modelConfigJson from '../data/modelConfig.json';
 
 // Home Component
 export default function Home() {
-	const { ref: tableRef, inView: tableInView } = useInView({ triggerOnce: true });
-	const { ref: chartRef, inView: chartInView } = useInView({ triggerOnce: true });
-
-	interface ModelData {
+	// Type the imported JSON data
+	const modelData = modelDataJson as Array<{
 		metric: string;
-		dream: number | string;
-		deepseek: number;
-		smolvm: number;
-		pali: number;
-		internvl: number;
-		qwen2b: number;
 		[key: string]: number | string;
-	}
+	}>;
 
-	const modelData: ModelData[] = [
-		{ metric: 'Average', dream: 73.1, deepseek: 58.6, internvl: 70.7, smolvm: 63.8, pali: 65.8, qwen2b: 76.7 },
-		{ metric: 'ChartQA', dream: 72.2, deepseek: 47.6, internvl: 71.5, smolvm: 27.8, pali: 33.6, qwen2b: 73.4 },
-		{ metric: 'TextVQA', dream: 73.42, deepseek: 57.65, internvl: 73.34, smolvm: 70.19, pali: 70.06, qwen2b: 79.93 },
-		{ metric: 'DocVQA', dream: 75.86, deepseek: 35.68, internvl: 86.10, smolvm: 68.92, pali: 73.87, qwen2b: 89.16 },
-		{ metric: 'RealWorldQA', dream: 0.605, deepseek: 0.501, internvl: 0.578, smolvm: 0.542, pali: 0.550, qwen2b: 0.624 },
-		{ metric: 'CountBenchQA', dream: 0.800, deepseek: 0.790, internvl: 0.621, smolvm: 0.754, pali: 0.790, qwen2b: 0.839 },
-		{ metric: 'TallyQA', dream: 0.769, deepseek: 0.695, internvl: 0.696, smolvm: 0.727, pali: 0.778, qwen2b: 0.759 },
-		{ metric: 'POPE', dream: 89.83, deepseek: 85.78, internvl: 85.34, smolvm: 84.04, pali: 87.46, qwen2b: 88.01 },
-		{ metric: 'SeedBench2+', dream: 55.73, deepseek: 43.70, internvl: 59.90, smolvm: 57.20, pali: 49.80, qwen2b: 61.20 }
-	];
-
-	/**
-	 * Benchmark Score Calculation:
-	 * 1. Scale 0-1 range benchmarks by 100x to match other benchmarks
-	 * 2. Average all benchmark scores
-	 */
-	const calculateBenchmarkScore = (model: string) => {
-		const includedBenchmarks = [
-			'ChartQA',
-			'TextVQA',
-			'DocVQA',
-			'RealWorldQA',
-			'CountBenchQA',
-			'TallyQA',
-			'POPE'
-		];
-		
-		const scores = modelData
-			.filter(row => includedBenchmarks.includes(row.metric))
-			.map(row => {
-				const value = row[model];
-				if (typeof value === 'string' || value === undefined) return 0;
-				// Scale benchmarks that are in 0-1 range by 100x to match other benchmarks
-				if (row.metric === 'RealWorldQA' || row.metric === 'CountBenchQA' || row.metric === 'TallyQA') {
-					return value * 100;
-				}
-				return value;
-			}).filter(score => score > 0);
-		
-		// Average all scores
-		return scores.reduce((sum, score) => sum + score, 0) / scores.length;
-	};
-
-	// RAM usage mapping
-	const ramUsage = {
-		dream: 4.4,      // Moondream
-		qwen2b: 7.3,     // QWEN
-		smolvm: 5.9,     // smolvlm
-		deepseek: 5.1,   // deepseek
-		pali: 6.5,       // paligemma
-		internvl: 5.8,   // InternVL2-2B
-	};
-
-	// Generate chart data programmatically
-	const chartData = [
-		{ name: 'moondream 1.9b', x: ramUsage.dream, y: calculateBenchmarkScore('dream') },
-		{ name: 'SmolVLM 2b', x: ramUsage.smolvm, y: calculateBenchmarkScore('smolvm') },
-		{ name: 'PaLiGemma 3b', x: ramUsage.pali, y: calculateBenchmarkScore('pali') },
-		{ name: 'deepseek 1.3b (actual: 2b)', x: ramUsage.deepseek, y: calculateBenchmarkScore('deepseek') },
-		{ name: 'InternVL2 2b', x: ramUsage.internvl, y: calculateBenchmarkScore('internvl') },
-		{ name: 'Qwen2b Instruct', x: ramUsage.qwen2b, y: calculateBenchmarkScore('qwen2b') },
-	];
-
-	// Add curve data points
-	const curveData = [
-		{ x: 4, y: 50 },  // 2GB, 50%
-		{ x: 5.1, y: calculateBenchmarkScore('deepseek') },  // deepseek 1.3b
-		{ x: 5.8, y: calculateBenchmarkScore('internvl') },  // internvl2
-		{ x: 7.3, y: calculateBenchmarkScore('qwen2b') },   // qwen2b
-		{ x: 8, y: 80 }, // 8GB, 80%
-	];
-
-	// Function to format numbers to 1 decimal place
-	const formatNumber = (num: number | string, metric: string) => {
-		if (typeof num === 'string') return num;
-		// Convert 0-1 range to percentage for specific benchmarks
-		if (metric === 'RealWorldQA' || metric === 'CountBenchQA' || metric === 'TallyQA') {
-			return (num * 100).toFixed(1);
-		}
-		return num.toFixed(1);
-	};
-
-	interface ScatterProps {
-		cx: number;
-		cy: number;
-		payload: {
+	const modelConfig = modelConfigJson as {
+		models: Array<{
+			id: string;
 			name: string;
-			x: number;
-			y: number;
-		};
-	}
-
-	const renderShape = (props: unknown): JSX.Element => {
-		const { cx, cy, payload } = props as ScatterProps;
-		
-		return (
-			<g>
-				<circle
-					cx={cx}
-					cy={cy}
-					r={4}
-					fill="#000"
-				/>
-				<text
-					x={cx}
-					y={cy - 10}
-					textAnchor="middle"
-					fill="#000"
-					className="text-sm font-geist"
-					>
-					{payload.name}
-				</text>
-			</g>
-		);
+			ram: number;
+			isNew: boolean;
+		}>;
+		benchmarks: string[];
 	};
 
 	return (
@@ -148,209 +38,8 @@ export default function Home() {
 			</Head>
 
 			<main className='container mx-auto px-4 py-16'>
-				<motion.div
-					ref={chartRef}
-					initial='hidden'
-					animate={chartInView ? 'visible' : 'hidden'}
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-					}}
-					className='w-full mb-8'
-				>
-					<div className='bg-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.02),0_1px_6px_rgba(0,0,0,0.03)] overflow-hidden border border-[#eaeaea] p-6'>
-						<h2 className='text-2xl font-semibold mb-8 font-geist text-center tracking-tight'>Small Vision Language Model Ecosystem</h2>
-						<div className='w-full h-[600px] relative'>
-							<ResponsiveContainer width='100%' height='100%'>
-								<ComposedChart margin={{ top: 20, right: 40, bottom: 40, left: 40 }}>
-									<defs>
-										<marker id='arrowhead' markerWidth='10' markerHeight='7' refX='9' refY='3.5' orient='auto'>
-											<polygon points='0 0, 10 3.5, 0 7' fill='#666' />
-										</marker>
-									</defs>
-									<CartesianGrid strokeDasharray='3 3' stroke='#eaeaea' />
-									<XAxis
-										type='number'
-										dataKey='x'
-										name='RAM Usage'
-										unit=' GB'
-										domain={[4, 8]}
-										ticks={[4, 5, 6, 7, 8]}
-										tickFormatter={(value) => `${value}`}
-										stroke='#666'
-									>
-										<Label value='RAM Usage (GB)' offset={-30} position='insideBottom' style={{ fontFamily: 'Geist', fontSize: '18px' }} />
-										<Label
-											value='← less is cheaper/faster'
-											position='bottom'
-											offset={15}
-											style={{
-												fontFamily: 'Geist',
-												fontSize: '12px',
-												fill: '#16a34a',
-												opacity: 0.5,
-												transform: 'translateY(-20px) translateX(-330px)',
-											}}
-										/>
-									</XAxis>
-									<YAxis
-										type='number'
-										dataKey='y'
-										name='Average Benchmark Score'
-										unit='%'
-										domain={[50, 90]}
-										ticks={[50, 55, 60, 65, 70, 75, 80, 85, 90]}
-										tickFormatter={(value) => `${value}`}
-										label={{ 
-											value: 'Average Benchmark Score (%)', 
-											angle: -90, 
-											offset: -10, // position options: 
-											style: { fontFamily: 'Geist', fontSize: '18px' },
-											position: 'insideLeft',
-										}}
-										stroke='#666'
-									>
-										<Label
-											value='↑ higher is better'
-											position='top'
-											offset={10}
-											style={{
-												fontFamily: 'Geist',
-												fontSize: '12px',
-												fill: '#16a34a',
-												opacity: 0.5,
-												textAnchor: 'start',
-											}}
-										/>
-									</YAxis>
-									<Tooltip
-										cursor={false}
-										content={({ payload }) => {
-											if (payload && payload.length) {
-												const data = payload[0].payload;
-												return (
-													<div className='bg-white p-3 border border-[#eaeaea] shadow-[0_2px_4px_rgba(0,0,0,0.02),0_1px_6px_rgba(0,0,0,0.03)] rounded-lg font-geist'>
-														<p className='font-medium text-sm mb-1'>{data.name}</p>
-														<p className='text-xs text-gray-600'>RAM: {data.x} GB</p>
-														<p className='text-xs text-gray-600'>Average Benchmark Score: {data.y.toFixed(1)}%</p>
-													</div>
-												);
-											}
-											return null;
-										}}
-									/>
-									<defs>
-										<linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
-											<stop offset='5%' stopColor='#93c5fd' stopOpacity={0.2} />
-											<stop offset='95%' stopColor='#93c5fd' stopOpacity={0.1} />
-										</linearGradient>
-									</defs>
-
-									<Area type='monotone' dataKey='y' data={curveData} stroke='none' fill='url(#colorUv)' fillOpacity={1} isAnimationActive={false} />
-
-									<Scatter
-										name='Models'
-										data={chartData}
-										fill='#000'
-										shape={renderShape}
-									/>
-								</ComposedChart>
-							</ResponsiveContainer>
-							<div className='absolute left-[580px] top-[420px] transform -translate-y-1/2 bg-white/95 p-4 rounded-lg border border-[#eaeaea] shadow-[0_2px_4px_rgba(0,0,0,0.02),0_1px_6px_rgba(0,0,0,0.03)]'>
-								<p className='text-sm font-medium font-geist mb-2 tracking-tight'>Average Benchmark Score Methodology</p>
-								<p className='text-xs text-gray-600 font-geist leading-relaxed'>
-									For each benchmark:
-									<br />
-									1. Rank models by score
-									<br />
-									2. Convert to percentile (0-100%)
-									<br />
-									3. Average all percentiles
-								</p>
-								<p className='text-[11px] text-gray-400 font-geist mt-2 leading-relaxed'>*We squeezed the Y-axis to improve chart readability.</p>
-							</div>
-						</div>
-					</div>
-				</motion.div>
-
-				<motion.div
-					ref={tableRef}
-					initial='hidden'
-					animate={tableInView ? 'visible' : 'hidden'}
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-					}}
-					className='w-full'
-				>
-					<div className='bg-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.02),0_1px_6px_rgba(0,0,0,0.03)] overflow-hidden border border-[#eaeaea]'>
-						<div className='overflow-x-auto'>
-							<table className='w-full text-sm border-collapse'>
-								<thead>
-									<tr className='border-b border-[#eaeaea]'>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='flex flex-col'>
-												<div className='text-[13px] tracking-tight'>Benchmark</div>
-												<div className='text-xs text-gray-500 font-normal mt-0.5'>RAM Usage (GB)</div>
-											</div>
-										</th>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-slate-50/80 font-geist border-r border-[#eaeaea] border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20'>
-											<div className='flex flex-col'>
-												<div className='text-[10px] text-red-500 font-medium -mb-1'>New</div>
-												<span className='text-[13px] tracking-tight'>moondream 1.9b</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>4.4 GB</span>
-											</div>
-										</th>
-										
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>InternVL2 2b</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.8 GB</span>
-											</div>
-										</th>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>SmolVLM 2b</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>5.9 GB</span>
-											</div>
-										</th>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist border-r border-[#eaeaea]'>
-											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>PaLiGemma 3b</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>6.5 GB</span>
-											</div>
-										</th>
-										<th className='px-4 py-3 text-left font-semibold text-black bg-white font-geist'>
-											<div className='flex flex-col'>
-												<span className='text-[13px] tracking-tight'>Qwen2b Instruct</span>
-												<span className='text-xs text-gray-500 font-normal mt-0.5'>7.3 GB</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									{modelData.map((row, idx) => (
-										<tr
-											key={row.metric}
-											className={`
-												border-b border-[#eaeaea] last:border-b-0
-												hover:bg-[#fafafa] transition-colors duration-150
-												${idx % 2 === 0 ? 'bg-white' : 'bg-[#fafafa]'}
-											`}
-										>
-											<td className={`px-4 py-3 whitespace-nowrap text-[13px] text-black font-geist tracking-tight ${row.metric === 'Average' ? 'font-bold' : 'font-medium'}`}>{row.metric}</td>
-											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono bg-slate-50/80 border-l-2 border-r-2 border-l-gray-600/20 border-r-gray-600/20 ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.dream, row.metric)}</td>
-											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.internvl, row.metric)}</td>
-											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.smolvm, row.metric)}</td>
-											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.pali, row.metric)}</td>
-											<td className={`px-4 py-3 text-left text-[13px] text-black font-mono ${row.metric === 'Average' ? 'font-bold' : ''}`}>{formatNumber(row.qwen2b, row.metric)}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</motion.div>
+				<ModelVisualization modelData={modelData} modelConfig={modelConfig} />
+				<BenchmarkTable modelData={modelData} modelConfig={modelConfig} />
 
 				{/* Query/Response Visualization: Modern Terminal Style */}
 				<motion.div

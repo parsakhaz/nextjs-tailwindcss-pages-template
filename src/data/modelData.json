@@ -1,0 +1,11 @@
+[  
+  { "metric": "Average", "dream_v2": 73.8, "dream_v1": 73.1, "deepseek": 58.6, "internvl": 70.7, "smolvm": 63.8, "pali": 65.8, "qwen2b": 76.7 },
+  { "metric": "ChartQA", "dream_v2": 74.84, "dream_v1": 72.2, "deepseek": 47.6, "internvl": 71.5, "smolvm": 27.8, "pali": 33.6, "qwen2b": 73.4 },
+  { "metric": "TextVQA", "dream_v2": 74.65, "dream_v1": 73.42, "deepseek": 57.65, "internvl": 73.34, "smolvm": 70.19, "pali": 70.06, "qwen2b": 79.93 },
+  { "metric": "DocVQA", "dream_v2": 76.46, "dream_v1": 75.86, "deepseek": 35.68, "internvl": 86.10, "smolvm": 68.92, "pali": 73.87, "qwen2b": 89.16 },
+  { "metric": "RealWorldQA", "dream_v2": 0.5765, "dream_v1": 0.605, "deepseek": 0.501, "internvl": 0.578, "smolvm": 0.542, "pali": 0.550, "qwen2b": 0.624 },
+  { "metric": "CountBenchQA", "dream_v2": 0.8635, "dream_v1": 0.800, "deepseek": 0.790, "internvl": 0.621, "smolvm": 0.754, "pali": 0.790, "qwen2b": 0.839 },
+  { "metric": "TallyQA", "dream_v2": 0.7723, "dream_v1": 0.769, "deepseek": 0.695, "internvl": 0.696, "smolvm": 0.727, "pali": 0.778, "qwen2b": 0.759 },
+  { "metric": "POPE", "dream_v2": 89.6, "dream_v1": 89.83, "deepseek": 85.78, "internvl": 85.34, "smolvm": 84.04, "pali": 87.46, "qwen2b": 88.01 },
+  { "metric": "SeedBench2+", "dream_v2": 54.28, "dream_v1": 55.73, "deepseek": 43.70, "internvl": 59.90, "smolvm": 57.20, "pali": 49.80, "qwen2b": 61.20 }
+]
